@@ -1,0 +1,28 @@
+pipeline {
+  agent any
+
+  environment {
+    IMAGE_NAME = "busapp"
+    IMAGE_TAG  = "${env.BUILD_NUMBER}"
+  }
+
+  stages {
+    stage('Checkout') {
+      steps {
+        checkout scm
+      }
+    }
+
+    stage('Docker Build') {
+      steps {
+        dir('busapp-webapp') {
+          sh '''
+            docker version
+            DOCKER_BUILDKIT=1 docker build -t ${IMAGE_NAME}:${IMAGE_TAG} .
+            docker images | head
+          '''
+        }
+      }
+    }
+  }
+}
