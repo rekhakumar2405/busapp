@@ -18,7 +18,7 @@ pipeline {
         dir('busapp-webapp') {
           sh '''
             docker version
-            DOCKER_BUILDKIT=1 docker build -t ${IMAGE_NAME}:${IMAGE_TAG} .
+            docker build -t ${IMAGE_NAME}:${IMAGE_TAG} .
             docker images | head
           '''
         }
